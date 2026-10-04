@@ -36,3 +36,4 @@
 @media(max-width:760px){.hero h1{font-size:clamp(41px,8.7vw,62px);letter-spacing:-2px}.hero-tagline{font-size:15px}.case-grid{grid-template-columns:1fr}.case-card h3,.case-overview{min-height:0}.case-result{margin:25px 0 20px}.architecture-heading{align-items:flex-start;flex-direction:column;gap:16px}.architecture-flow{gap:16px}.architecture-flow li{padding:20px 16px}.stage-arrow{right:-16px;width:13px}.architecture-flow p{min-height:64px}.architecture-flow h4{font-size:15px}}
 @media(max-width:400px){.architecture-flow{grid-template-columns:1fr}.architecture-flow li .stage-arrow{display:none}.architecture-flow p{min-height:0}}
 @media(max-width:440px){.hero-actions{flex-wrap:wrap;gap:10px}.hero-actions .button{white-space:nowrap}.hero-actions .text-button{padding-inline:8px;gap:8px}}
+.credential-link{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:12px;text-decoration:underline;text-underline-offset:4px}.credential-link:hover{opacity:.8}
