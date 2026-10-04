@@ -1,8 +1,19 @@
-import { StrictMode, useState } from 'react';
+import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowUpRight, ArrowDown, ArrowRight, Terminal, MapPin, Mail, Phone, Github, Download, Menu, X, Award, Check } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, ArrowRight, Terminal, MapPin, Mail, Phone, Github, Download, Menu, X, Award, Check, Sun, Moon } from 'lucide-react';
 import { experience, skills, awards } from './data';
 import './styles.css';
+
+const companies = [
+  { name: 'Citi', logo: 'citi.svg' },
+  { name: 'Snowflake', logo: 'snowflake.svg' },
+  { name: 'KetteQ', logo: 'ketteq.svg' },
+  { name: 'TIAA', logo: 'tiaa.svg' },
+  { name: 'Deloitte', logo: 'deloitte.svg' },
+  { name: 'LTI', logo: 'lti.png' },
+  { name: 'Capgemini', logo: 'capgemini.svg' },
+  { name: 'IBM', logo: 'ibm.svg' },
+];
 
 function InteractiveTerminal() {
   const [command, setCommand] = useState('');
@@ -35,15 +46,24 @@ function InteractiveTerminal() {
 }
 
 function App() {
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    try { return localStorage.getItem('portfolio-theme') === 'light' ? 'light' : 'dark'; }
+    catch { return 'dark'; }
+  });
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#101310' : '#f7f8f2');
+    try { localStorage.setItem('portfolio-theme', theme); } catch { /* Theme still works when storage is unavailable. */ }
+  }, [theme]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   async function copyEmail() { try { await navigator.clipboard.writeText('varadsingh@hotmail.com'); setCopied(true); window.setTimeout(() => setCopied(false), 2500); } catch { window.location.href = 'mailto:varadsingh@hotmail.com'; } }
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
-    <header className="header"><a href="#" className="brand" aria-label="Varadsingh home">v<span>.</span><span className="brand-name">VARADSINGH</span></a><button className="menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</button><nav className={menuOpen ? 'open' : ''} aria-label="Main navigation">{['About', 'Experience', 'Skills'].map(item => <a key={item} href={'#' + item.toLowerCase()} onClick={() => setMenuOpen(false)}>{item}</a>)}<a className="nav-contact" href="#contact" onClick={() => setMenuOpen(false)}>Let’s talk <ArrowUpRight size={16}/></a></nav></header>
+    <header className="header"><a href="#" className="brand" aria-label="Varadsingh home">v<span>.</span><span className="brand-name">VARADSINGH</span></a><nav className={menuOpen ? 'open' : ''} aria-label="Main navigation">{['About', 'Experience', 'Skills'].map(item => <a key={item} href={'#' + item.toLowerCase()} onClick={() => setMenuOpen(false)}>{item}</a>)}<a className="nav-contact" href="#contact" onClick={() => setMenuOpen(false)}>Let’s talk <ArrowUpRight size={16}/></a></nav><div className="header-controls"><button className="theme-toggle" aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Sun size={17}/> : <Moon size={17}/>}<span>{theme === 'dark' ? 'Light' : 'Dark'}</span></button><button className="menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</button></div></header>
     <main id="main">
       <section className="hero container"><div className="hero-copy"><div className="eyebrow"><span className="status-dot"/> DATA ENGINEER · BUILDER · PROBLEM SOLVER</div><h1>Making data<br/>work <span className="serif">better.</span></h1><p className="hero-intro">Hi, I’m <strong>Varadsingh Pardeshi.</strong><br/>I build reliable data systems, turn complexity into clarity, and make room for what matters through automation.</p><div className="hero-actions"><a className="button primary" href="#experience">Explore my work <ArrowUpRight size={18}/></a><a className="button text-button" href="/Varadsingh-Pardeshi-Resume.docx" download><Download size={16}/> Resume</a></div><div className="hero-meta"><MapPin size={14}/> Pune, India <span> / </span> Currently at Citi Bank</div></div><InteractiveTerminal/></section>
-      <div className="company-strip container"><span>EXPERIENCE ACROSS</span><div>{['Citi', 'Snowflake', 'KetteQ', 'TIAA', 'Deloitte', 'LTI', 'Capgemini', 'IBM'].map(name => <span key={name}>{name}</span>)}</div></div>
+      <div className="company-strip container"><span>EXPERIENCE ACROSS</span><div className="company-logos">{companies.map(company => <div className={`company-logo company-logo-${company.name.toLowerCase()}`} key={company.name} title={company.name}><img src={`/logos/${company.logo}`} alt={company.name} width="120" height="42"/></div>)}</div></div>
       <section id="about" className="section container"><div className="section-top"><span className="eyebrow">01 / THE BIG PICTURE</span><span className="small-note">Built on experience. Driven by impact.</span></div><div className="about-grid"><h2>Good engineering.<br/><span className="serif">Real outcomes.</span></h2><div><p className="large-copy">13 years connecting the dots between data, people, and business.</p><p className="body-copy">My work spans data engineering, ETL, data warehousing, and BI reporting across eight employers. From enterprise migrations to cloud pipelines, I bring a practical focus: dependable delivery, less manual work, and data people can trust.</p></div></div><div className="metrics"><article><strong>13<span> yrs</span></strong><p>IT & data experience</p></article><article><strong>7<span> FTE</span></strong><p>Saved through automation at IBM & Capgemini</p></article><article><strong>60<span>%</span></strong><p>Reduction in request MTTR at TIAA</p></article><article><strong>8<span> people</span></strong><p>Migration team led at IBM</p></article></div></section>
       <section id="experience" className="section container"><div className="section-top"><span className="eyebrow">02 / THE JOURNEY</span><a className="inline-link" href="/Varadsingh-Pardeshi-Resume.docx" download>Full resume <ArrowUpRight size={15}/></a></div><h2>A career built<br/>on <span className="serif">moving forward.</span></h2><p className="section-description">Enterprise scale. Hands-on delivery. A constant drive to improve.</p><div className="timeline">{experience.map((job, index) => <details key={job.company} className="job" open={index === 0 ? true : undefined}><summary><div className="job-index">{String(index + 1).padStart(2, '0')}</div><div className="job-heading"><h3>{job.company}{index === 0 && <span className="current">CURRENT</span>}</h3><p>{job.role} <span>· {job.location}</span></p></div><span className="job-date">{job.dates}</span><span className="expand-icon">+</span></summary><div className="job-content"><p className="job-summary">{job.summary}</p><ul>{job.details.map(detail => <li key={detail}>{detail}</li>)}</ul><div className="tags">{job.stack.map(item => <span key={item}>{item}</span>)}</div></div></details>)}</div></section>
       <section id="skills" className="section skills-section"><div className="container"><div className="section-top"><span className="eyebrow">03 / THE TOOLKIT</span><span className="small-note">The right tools. The right foundation.</span></div><h2>From source<br/>to <span className="serif">possibility.</span></h2><div className="skills-grid">{skills.map(group => <article className="skill-card" key={group.title}><span className="skill-number">/{group.number}</span><h3>{group.title}</h3><div className="tags">{group.items.map(item => <span key={item}>{item}</span>)}</div></article>)}</div><div className="pipeline" aria-label="Data workflow"><span>INGEST</span><ArrowRight/><span>TRANSFORM</span><ArrowRight/><span>ORCHESTRATE</span><ArrowRight/><span>DELIVER</span></div></div></section>

@@ -44,6 +44,8 @@ Reference: https://developers.cloudflare.com/pages/framework-guides/deploy-a-rea
 - Terminal commands: `help`, `about`, `skills`, `experience`, `contact`, `clear`.
 - Experience entries expand using native accessible disclosure controls.
 - Google Fonts are optional external requests; system fallbacks are included.
+- Dark is the default theme. The header's Light / Dark button switches themes and remembers a visitor's explicit choice in local storage. Both themes remain usable when storage is blocked.
+- Employer logos are local assets in `public/logos/`; provenance is recorded in `public/logos/SOURCES.md`.
 - Email and phone links open the visitor's preferred applications; no contact form backend is needed.
 
 The repository is public. The resume and contact information are intentionally included for the portfolio requested by its owner.
