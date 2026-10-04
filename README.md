@@ -35,6 +35,12 @@ Cloudflare installs dependencies before building. No Workers adapter, server, AP
 
 Reference: https://developers.cloudflare.com/pages/framework-guides/deploy-a-react-site/
 
+## Current Cloudflare Workers integration
+
+The connected Cloudflare project uses Workers Builds. Keep its build command as `npm run build` and deploy command as `npx wrangler deploy`. The committed `wrangler.jsonc` explicitly serves the static `dist` directory, preventing Wrangler from automatically installing a Vite adapter and rewriting the build configuration. The same `dist` output remains compatible with Pages using the settings above.
+
+Reference: https://developers.cloudflare.com/workers/static-assets/binding/
+
 ## Content and design
 
 - Edit role descriptions, skills, and awards in `src/data.ts`.
